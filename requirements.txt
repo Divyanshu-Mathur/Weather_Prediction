@@ -1,0 +1,11 @@
+bs4
+numpy
+pandas
+requests
+matplot
+seaborn
+scikit-learn
+xgboost
+tensorflow 
+scikeras
+streamlit
