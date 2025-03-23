@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 import os
 
-# Load model
+
 from tensorflow.keras.losses import MeanSquaredError, MeanAbsoluteError
 
 custom_objects = {
@@ -39,10 +39,10 @@ if option == "Day-wise":
         st.write(f"- **Max Temperature:** {max_temp:.2f}°C")
         st.write(f"- **Min Temperature:** {min_temp:.2f}°C")
         
-        if rain > 2:
-            st.write("- **Rainfall ** Yes")
+        if rain > 2.5:
+            st.write("- Rain: Yes")
         else:
-            st.write("- **Rainfall ** No")
+            st.write("- Rain: No")
 
 elif option == "Month-wise":
     month = st.number_input("Enter Month:", min_value=1, max_value=12, step=1)
@@ -58,28 +58,26 @@ elif option == "Month-wise":
         min_temps = predictions[:, 1]
         rainfall = predictions[:, 2]
         print(rainfall)
-        rainfall_binary = np.where(rainfall > 2, 1, 0) 
+        rainfall_binary = np.where(rainfall > 2.5, 1, 0) 
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
-        bar_width = 0.35  # Width of each bar
+        bar_width = 0.35  
         x = np.arange(len(days))
         ax1.bar(x - bar_width/2, max_temps, width=bar_width, color='r', alpha=0.6, label='Max Temp (°C)')
         ax1.bar(x + bar_width/2, min_temps, width=bar_width, color='b', alpha=0.6, label='Min Temp (°C)')
         ax1.set_xlabel("Day")
         ax1.set_ylabel("Temperature (°C)")
         ax1.set_title("Max and Min Temperatures")
-        ax1.set_xticks(x)  # Set x-ticks to days
-        ax1.set_xticklabels(days)  # Label x-ticks with day numbers
+        ax1.set_xticks(x) 
+        ax1.set_xticklabels(days)  
         ax1.legend(loc="upper left")
 
-        ax2.bar(days, rainfall_binary, color='g', alpha=0.6, label='Rainfall > 0.5 mm')
+        ax2.bar(days, rainfall_binary, color='g', alpha=0.6, label='Rainfall')
         ax2.set_xlabel("Day")
         ax2.set_ylabel("Rainfall (Yes/No)")
         ax2.set_title("Rainfall ")
         ax2.set_yticks([0, 1])  
-        ax2.set_yticklabels(["No", "Yes"])  # Label y-ticks as "No" and "Yes"
+        ax2.set_yticklabels(["No", "Yes"]) 
         ax2.legend(loc="upper left")
 
         plt.tight_layout()
-    
-    # Display the plot in Streamlit
         st.pyplot(fig)
